@@ -1,20 +1,3 @@
-"""
-GSE150404 Analysis Pipeline — Main Runner
-==========================================
-Runs all analysis steps sequentially.
-Each step saves its output to the output_GSE150404/ folder.
-
-Order:
-  1. load_data.py       -> df_exp.pkl
-  2. deg_analysis.py    -> stats.csv
-  3. pca_umap.py        -> pca_umap.json
-  4. heatmap.py         -> heatmap.json
-  5. boxplot.py         -> boxplot.json
-  6. enrichment.py      -> enrichment.json
-  7. network.py         -> network.json
-  8. build_report.py    -> GSE150404_Report.html
-"""
-
 import subprocess
 import sys
 import os
