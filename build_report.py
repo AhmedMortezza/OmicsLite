@@ -1,3 +1,24 @@
+"""
+Step 8 — Build HTML Report
+============================
+Membaca semua file JSON output dari tahap sebelumnya,
+membuat visualisasi Plotly, dan merakit satu HTML report
+dengan CSS terpisah (style.css).
+
+Input:
+  output_GSE15852/metadata.json
+  output_GSE15852/stats.csv
+  output_GSE15852/pca_umap.json
+  output_GSE15852/heatmap.json
+  output_GSE15852/boxplot.json
+  output_GSE15852/enrichment.json
+  output_GSE15852/network.json
+  report/style.css
+
+Output:
+  output_GSE15852/GSE15852_Report.html
+"""
+
 import json
 import os
 import numpy as np
@@ -6,11 +27,11 @@ import plotly.graph_objects as go
 import plotly.express as px
 import plotly.io as pio
 
-OUTPUT_DIR = "output_GSE150404"
+OUTPUT_DIR = "output_GSE15852"
 REPORT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ── Load semua data ──────────────────────────────
-print("Reading all JSON outputs...")
+print("Membaca semua output JSON...")
 
 def load_json(name):
     path = os.path.join(OUTPUT_DIR, name)
@@ -51,7 +72,7 @@ def to_html(fig):
 # ═════════════════════════════════════════════════
 # VOLCANO PLOT
 # ═════════════════════════════════════════════════
-print("Building Volcano Plot...")
+print("Membuat Volcano Plot...")
 stats_v = stats.copy()
 stats_v['neg_log10_padj'] = -np.log10(stats_v['p_adj'].clip(1e-300, 1))
 stats_v['label'] = stats_v.apply(
@@ -72,7 +93,7 @@ for deg, color in [('NS', COLORS['NS']), ('Down', COLORS['Down']), ('Up', COLORS
         hovertemplate='<b>%{customdata[2]}</b><br>logFC: %{customdata[0]:.3f}<br>adj.p: %{customdata[1]:.2e}<extra></extra>',
     ))
 
-# Label top significant genes
+# Label untuk top genes
 label_sub = stats_v[stats_v['label'] != '']
 for _, r in label_sub.iterrows():
     fig_vol.add_annotation(x=r['logFC'], y=r['neg_log10_padj'],
@@ -95,7 +116,7 @@ volcano_html = to_html(fig_vol)
 # ═════════════════════════════════════════════════
 # PCA PLOT
 # ═════════════════════════════════════════════════
-print("Building PCA Plot...")
+print("Membuat PCA Plot...")
 fig_pca = go.Figure()
 
 if pca_umap and 'pca' in pca_umap:
@@ -130,7 +151,7 @@ pca_html = to_html(fig_pca)
 # ═════════════════════════════════════════════════
 # UMAP PLOT
 # ═════════════════════════════════════════════════
-print("Building UMAP Plot...")
+print("Membuat UMAP Plot...")
 fig_umap = go.Figure()
 umap_available = pca_umap and pca_umap.get('umap')
 
@@ -166,7 +187,7 @@ else:
 # ═════════════════════════════════════════════════
 # HEATMAP
 # ═════════════════════════════════════════════════
-print("Building Heatmap...")
+print("Membuat Heatmap...")
 if hm_data:
     fig_hm = go.Figure(go.Heatmap(
         z=hm_data['z_matrix'],
@@ -177,7 +198,7 @@ if hm_data:
         colorbar=dict(title='Z-score', thickness=12, len=.8),
         hovertemplate='Gene: %{y}<br>Sample: %{x}<br>Z: %{z:.2f}<extra></extra>',
     ))
-    # Group annotation bar
+    # Annotasi group bar
     n_c = hm_data['n_cancer']
     n_n = hm_data['n_normal']
     fig_hm.add_shape(type='rect',
@@ -196,7 +217,7 @@ else:
 # ═════════════════════════════════════════════════
 # BOX PLOT
 # ═════════════════════════════════════════════════
-print("Building Box Plot...")
+print("Membuat Box Plot...")
 if box_data and box_data.get('genes'):
     fig_box = go.Figure()
     for gd in box_data['genes']:
@@ -229,7 +250,7 @@ else:
 # ═════════════════════════════════════════════════
 # ENRICHMENT
 # ═════════════════════════════════════════════════
-print("Building Enrichment Chart...")
+print("Membuat Enrichment Chart...")
 enr_chart_html  = "<div class='notice'>Enrichment tidak tersedia.</div>"
 enr_table_html  = ""
 
@@ -252,7 +273,7 @@ if enr_data and enr_data.get('status') == 'ok' and enr_data.get('pathways'):
     )
     enr_chart_html = to_html(fig_enr)
 
-    # Table
+    # Tabel
     rows_html = ''
     for r in enr_data.get('table_rows', []):
         gs = r.get('Gene_set', '—')
@@ -280,7 +301,7 @@ if enr_data and enr_data.get('status') == 'ok' and enr_data.get('pathways'):
 # ═════════════════════════════════════════════════
 # NETWORK
 # ═════════════════════════════════════════════════
-print("Building Network Plot...")
+print("Membuat Network Plot...")
 net_html = "<div class='notice'>STRING network tidak tersedia (koneksi gagal atau tidak ada edge signifikan).</div>"
 
 if net_data and net_data.get('status') == 'ok':
@@ -354,14 +375,14 @@ gen_ts     = pd.Timestamp.now().strftime('%Y-%m-%d %H:%M')
 # ═════════════════════════════════════════════════
 # BUILD HTML
 # ═════════════════════════════════════════════════
-print("Assembling HTML report...")
+print("Merakit HTML report...")
 
 html = f"""<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GSE150404 — Analysis Report</title>
+<title>GSE15852 — Analysis Report</title>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <style>
 {css_content}
@@ -525,7 +546,7 @@ html = f"""<!DOCTYPE html>
 
 <!-- FOOTER -->
 <footer>
-  GSE150404 Analysis Pipeline · FDR: Benjamini-Hochberg ·
+  GSE15852 Analysis Pipeline · FDR: Benjamini-Hochberg ·
   <a href="https://string-db.org" target="_blank">STRING</a> PPI ·
   <a href="https://maayanlab.cloud/Enrichr/" target="_blank">Enrichr</a> ·
   Generated {gen_ts}
@@ -542,17 +563,17 @@ function showTab(name, btn) {{
 </body>
 </html>"""
 
-out_path = os.path.join(OUTPUT_DIR, "GSE150404_Report.html")
+out_path = os.path.join(OUTPUT_DIR, "GSE15852_Report.html")
 with open(out_path, 'w', encoding='utf-8') as f:
     f.write(html)
 
-print(f"  ✅ Report saved: {out_path}")
+print(f"  ✅ Report tersimpan: {out_path}")
 print(f"  Size: {os.path.getsize(out_path) / 1024:.0f} KB")
 
 # =================================================
 # EXPORT PNG
 # =================================================
-print("\nExporting JPGs...")
+print("\nExport JPG...")
 
 JPG_SCALE  = 2
 JPG_WIDTH  = 1400
@@ -591,14 +612,14 @@ try:
             plot_bgcolor='rgba(0,0,0,0)',
         )
         exported.append(name)
-        print(f"  Saved: {jpg_path}")
+        print(f"  Tersimpan: {jpg_path}")
 
     if skipped:
-        print(f"  Skipped (data unavailable): {', '.join(skipped)}")
-    print(f"\n  Total JPGs: {len(exported)} files")
+        print(f"  Dilewati (data tidak tersedia): {', '.join(skipped)}")
+    print(f"\n  Total JPG: {len(exported)} file")
 
 except ImportError:
-    print("  [!] kaleido is not installed.")
-    print("      Run: pip install kaleido")
+    print("  [!] kaleido tidak terinstall.")
+    print("      Jalankan: pip install kaleido")
 except Exception as e:
-    print(f"  [!] JPG export failed: {e}")
+    print(f"  [!] Export JPG gagal: {e}")
