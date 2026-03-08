@@ -1,18 +1,3 @@
-"""
-Step 2 — Differential Expression Analysis
-==========================================
-Calculate logFC, t-test, and FDR correction (Benjamini-Hochberg).
-Also maps Probe IDs to Gene Symbols via the MyGene API.
-
-Input:
-  output_GSE150404/df_exp.pkl
-  output_GSE150404/metadata.json
-
-Output:
-  output_GSE150404/stats.csv      — Full DEG results table
-  output_GSE150404/mapping.json   — Probe -> Gene Symbol mapping
-"""
-
 import pandas as pd
 import numpy as np
 import json
