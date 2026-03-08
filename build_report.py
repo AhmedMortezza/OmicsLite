@@ -1,24 +1,3 @@
-"""
-Step 8 — Build HTML Report
-============================
-Reads all JSON output files from previous steps,
-builds Plotly visualisations, and assembles a single HTML report
-with a separate CSS stylesheet (style.css).
-
-Input:
-  output_GSE150404/metadata.json
-  output_GSE150404/stats.csv
-  output_GSE150404/pca_umap.json
-  output_GSE150404/heatmap.json
-  output_GSE150404/boxplot.json
-  output_GSE150404/enrichment.json
-  output_GSE150404/network.json
-  report/style.css
-
-Output:
-  output_GSE150404/GSE150404_Report.html
-"""
-
 import json
 import os
 import numpy as np
