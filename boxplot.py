@@ -1,18 +1,3 @@
-"""
-Step 5 — Box Plot Top DEGs
-===========================
-Retrieves the top 12 DEGs and prepares per-group expression data
-for display as an interactive box plot.
-
-Input:
-  output_GSE150404/df_exp.pkl
-  output_GSE150404/stats.csv
-  output_GSE150404/metadata.json
-
-Output:
-  output_GSE150404/boxplot.json
-"""
-
 import pandas as pd
 import numpy as np
 import json
