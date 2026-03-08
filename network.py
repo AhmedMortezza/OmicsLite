@@ -1,16 +1,3 @@
-"""
-Step 7 — STRING Protein Interaction Network
-=============================================
-Queries the STRING API for a protein-protein interaction network
-built from the top differentially expressed genes.
-
-Input:
-  output_GSE150404/stats.csv
-
-Output:
-  output_GSE150404/network.json  — Nodes + edges for Plotly network
-"""
-
 import pandas as pd
 import numpy as np
 import json
