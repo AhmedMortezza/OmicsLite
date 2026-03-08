@@ -1,15 +1,3 @@
-"""
-Step 1 — Load Data
-==================
-Download GSE150404 series matrix from NCBI GEO,
-auto-detect Cancer/Normal groups from sample titles,
-and save as pickle + metadata JSON.
-
-Output:
-  output_GSE150404/df_exp.pkl
-  output_GSE150404/metadata.json
-"""
-
 import pandas as pd
 import numpy as np
 import urllib.request
