@@ -1,17 +1,3 @@
-"""
-Step 3 — PCA & UMAP
-====================
-Dimensionality reduction to visualize Cancer vs Normal separation.
-Produces PCA coordinates (always) and UMAP coordinates (if available).
-
-Input:
-  output_GSE150404/df_exp.pkl
-  output_GSE150404/metadata.json
-
-Output:
-  output_GSE150404/pca_umap.json  — Coordinates + variance explained
-"""
-
 import pandas as pd
 import numpy as np
 import json
