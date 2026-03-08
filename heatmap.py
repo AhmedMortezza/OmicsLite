@@ -1,18 +1,3 @@
-"""
-Step 4 — Heatmap
-================
-Heatmap of the top 50 DEGs with Z-score normalization.
-Produces a JSON file for rendering as a Plotly heatmap in the report.
-
-Input:
-  output_GSE150404/df_exp.pkl
-  output_GSE150404/stats.csv
-  output_GSE150404/metadata.json
-
-Output:
-  output_GSE150404/heatmap.json
-"""
-
 import pandas as pd
 import numpy as np
 import json
