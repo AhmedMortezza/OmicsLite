@@ -1,16 +1,3 @@
-"""
-Step 6 — Enrichment Analysis
-=============================
-KEGG + GO Biological Process enrichment via gseapy (Enrichr),
-using significant genes from the DEG analysis.
-
-Input:
-  output_GSE150404/stats.csv
-
-Output:
-  output_GSE150404/enrichment.json  — Top pathways + results table
-"""
-
 import pandas as pd
 import numpy as np
 import json
